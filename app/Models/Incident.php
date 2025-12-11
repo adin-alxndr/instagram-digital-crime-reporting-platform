@@ -8,28 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Incident extends Model
 {
-    protected $table = 'incidents';
-
-    protected $fillable = [
-        'incident_id',
-        'victim_name',
-        'victim_contact',
-        'case_type',
-        'incident_date',
-        'location',
-        'summary',
-        'reporter',
-        'status'
-    ];
+    protected $table = 'reports';
 
     protected $casts = [
-        'incident_date' => 'datetime',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
     ];
-
-    public function evidence(): HasMany
-    {
-        return $this->hasMany(Evidence::class);
-    }
 }

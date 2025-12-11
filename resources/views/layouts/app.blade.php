@@ -10,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.5/css/dataTables.dataTables.min.css" class="css">
     @yield('css')
 </head>
 <body>
@@ -30,7 +31,7 @@
                         <li class="nav-item mb-2">
                             <a class="nav-link {{ Route::is('incidents.*') ? 'active' : '' }}" 
                                href="{{ route('incidents.index') }}">
-                                <i class="fas fa-exclamation-triangle me-2"></i>Insiden
+                                <i class="fas fa-exclamation-triangle me-2"></i>Kasus
                             </a>
                         </li>
                         <li class="nav-item mb-2">
@@ -43,6 +44,12 @@
                             <a class="nav-link {{ Route::is('evidence.*') ? 'active' : '' }}" 
                                href="{{ route('evidence.index') }}">
                                 <i class="fas fa-archive me-2"></i>Barang Bukti
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link {{ Route::is('pec.*') ? 'active' : '' }}" 
+                               href="{{ route('pec.index') }}">
+                                <i class="fas fa-gear me-2"></i>Proses Tindakan
                             </a>
                         </li>
                     </ul>
@@ -78,6 +85,14 @@
     @include('layouts.footer')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables CSS & JS CDN -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     @yield('js')
 </body>
 </html>

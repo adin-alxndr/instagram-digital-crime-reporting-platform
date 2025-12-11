@@ -1,6 +1,6 @@
 <!-- resources/views/user-web/report-success.blade.php -->
 
-@extends('user-web.layouts.app')
+@extends('user-web.app')
 
 @section('title', 'Laporan Berhasil Dikirim')
 @section('body-class', 'topics-listing-page')
@@ -15,7 +15,7 @@
                 <!-- SUCCESS ICON -->
                 <div class="mb-4">
                     <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 120px; height: 120px; background-color: #27AE60; color: white; font-size: 60px;">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="bi bi-check"></i>
                     </div>
                 </div>
 
@@ -29,25 +29,40 @@
                 </p>
 
                 <!-- REPORT ID CARD -->
-                <div class="card mb-4" style="border-radius: 15px; border: 2px solid #5DADE2; background-color: white;">
-                    <div class="card-body p-4">
-                        <h6 class="text-muted mb-2">NOMOR REFERENSI LAPORAN</h6>
-                        <h3 class="fw-bold" style="color: #5DADE2; font-size: 1.8rem; font-family: monospace;">
-                            {{ $reportId }}
-                        </h3>
-                        <small class="text-muted">Simpan nomor ini untuk referensi Anda</small>
+                <div class="card mb-4 border-2 border-primary rounded-4">
+                    <div class="card-body text-center py-4">
 
-                        <button class="btn btn-sm btn-outline-primary mt-3" onclick="copyToClipboard('{{ $reportId }}')">
-                            <i class="fas fa-copy me-2"></i> Salin Nomor
-                        </button>
+                        <div class="text-uppercase text-muted small mb-2">
+                            Nomor Referensi Laporan
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                            <h3 class="fw-bold text-primary mb-0 font-monospace">
+                                {{ $reportId }}
+                            </h3>
+
+                            <button
+                                class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1"
+                                onclick="copyToClipboard('{{ $reportId }}')"
+                            >
+                                <i class="bi bi-clipboard"></i>
+                                <span>Salin</span>
+                            </button>
+                        </div>
+
+                        <div class="text-muted small mt-2">
+                            Simpan nomor ini untuk referensi Anda
+                        </div>
+
                     </div>
                 </div>
+
 
                 <!-- NEXT STEPS -->
                 <div class="card mb-4" style="border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 5px solid #F39C12;">
                     <div class="card-body p-4 text-start">
                         <h5 class="fw-bold mb-3">
-                            <i class="fas fa-tasks me-2" style="color: #F39C12;"></i> Langkah Selanjutnya
+                            <i class="bi bi-list-check me-2" style="color: #F39C12;"></i> Langkah Selanjutnya
                         </h5>
 
                         <div class="mb-3">
@@ -102,17 +117,17 @@
 
                 <!-- INFO BOX -->
                 <div class="alert alert-info mb-4" style="background-color: #E8F4F8; border-color: #5DADE2; border-left: 5px solid #5DADE2;">
-                    <i class="fas fa-info-circle me-2" style="color: #5DADE2;"></i>
+                    <i class="bi bi-info-circle-fill" style="color: #5DADE2;"></i>
                     <strong>Privasi Terjamin:</strong> Jika Anda melaporkan secara anonim, identitas Anda tidak akan dibagikan kepada siapapun.
                 </div>
 
                 <!-- BUTTONS -->
                 <div class="d-grid gap-2 d-md-flex justify-content-center">
                     <a href="{{ route('user-web.home') }}" class="btn btn-lg btn-primary" style="background-color: #5DADE2; border-radius: 10px; padding: 12px 30px;">
-                        <i class="fas fa-home me-2"></i> Kembali ke Beranda
+                        <i class="bi bi-house-fill"></i> Kembali ke Beranda
                     </a>
                     <a href="{{ route('user-web.report.create') }}" class="btn btn-lg btn-outline-primary" style="border-radius: 10px; padding: 12px 30px;">
-                        <i class="fas fa-plus me-2"></i> Buat Laporan Lain
+                        <i class="bi bi-plus-circle"></i> Buat Laporan Lain
                     </a>
                 </div>
 

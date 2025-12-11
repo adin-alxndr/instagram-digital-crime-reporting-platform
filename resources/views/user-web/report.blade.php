@@ -53,12 +53,54 @@
                             </div>
                         @endif
 
-                        <h3 class="mb-4 fw-bold">Detail Laporan</h3>
-
                         <form action="{{ route('user-web.report.submit') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
-                            <!-- JENIS KEJAHATAN -->
+                            <!-- INFORMASI PELAPOR -->
+                            <h4 class="mb-4 fw-bold">Informasi Pelapor</h4>
+
+                            <!-- NAMA -->
+                            <div class="mb-4">
+                                <label for="reporter_name" class="form-label fw-bold">
+                                    <i class="fas fa-user me-2"></i>Nama Lengkap <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control @error('reporter_name') is-invalid @enderror" id="reporter_name" name="reporter_name" placeholder="Nama Anda" value="{{ old('reporter_name') }}" required>
+                                @error('reporter_name')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="mb-4">
+                                <label for="reporter_email" class="form-label fw-bold">
+                                    <i class="fas fa-envelope me-2"></i>Email 
+                                </label>
+                                <input type="text" class="form-control @error('reporter_email') is-invalid @enderror" id="reporter_email" name="reporter_email" placeholder="email@example.com" value="{{ old('reporter_email') }}">
+                                <small class="text-muted">Untuk update status laporan (opsional untuk laporan anonim)</small>
+                                @error('reporter_email')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- NO TELEPON -->
+                            <div class="mb-4">
+                                <label for="reporter_phone" class="form-label fw-bold">
+                                    <i class="fas fa-phone me-2"></i>No. Telepon (Opsional)
+                                </label>
+                                <input type="tel" class="form-control @error('reporter_phone') is-invalid @enderror" id="reporter_phone" name="reporter_phone" placeholder="+62 812-3456-7890" value="{{ old('reporter_phone') }}">
+                                @error('reporter_phone')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            
+                            <!-- DIVIDER -->
+                            <hr class="my-4">
+
+                            <!-- Lampiran Bukti -->
+                            <h4 class="mb-4 fw-bold">Detail Laporan</h4>
+
+                            <!-- Jenis Bukti -->
                             <div class="mb-4">
                                 <label for="crime_type" class="form-label fw-bold">
                                     <i class="fas fa-exclamation-triangle me-2 text-danger"></i>Jenis Kejahatan <span class="text-danger">*</span>
@@ -72,26 +114,6 @@
                                     <option value="other" {{ old('crime_type') == 'other' ? 'selected' : '' }}>Lainnya</option>
                                 </select>
                                 @error('crime_type')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- PLATFORM -->
-                            <div class="mb-4">
-                                <label for="platform" class="form-label fw-bold">
-                                    <i class="fab fa-instagram me-2" style="color: #E4405F;"></i>Platform Media Sosial <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select @error('platform') is-invalid @enderror" id="platform" name="platform" required>
-                                    <option value="">-- Pilih Platform --</option>
-                                    <option value="instagram" {{ old('platform') == 'instagram' ? 'selected' : '' }}>Instagram</option>
-                                    <option value="facebook" {{ old('platform') == 'facebook' ? 'selected' : '' }}>Facebook</option>
-                                    <option value="twitter" {{ old('platform') == 'twitter' ? 'selected' : '' }}>Twitter/X</option>
-                                    <option value="tiktok" {{ old('platform') == 'tiktok' ? 'selected' : '' }}>TikTok</option>
-                                    <option value="youtube" {{ old('platform') == 'youtube' ? 'selected' : '' }}>YouTube</option>
-                                    <option value="telegram" {{ old('platform') == 'telegram' ? 'selected' : '' }}>Telegram</option>
-                                    <option value="other" {{ old('platform') == 'other' ? 'selected' : '' }}>Lainnya</option>
-                                </select>
-                                @error('platform')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -130,59 +152,35 @@
                                 @enderror
                             </div>
 
-                            <!-- BUKTI SCREENSHOT -->
-                            <div class="mb-4">
-                                <label for="screenshot" class="form-label fw-bold">
-                                    <i class="fas fa-camera me-2"></i>Unggah Screenshot/Bukti <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <input type="file" class="form-control @error('screenshot') is-invalid @enderror" id="screenshot" name="screenshot" accept="image/*,.pdf" required>
-                                    <span class="input-group-text">
-                                        <i class="fas fa-image"></i>
-                                    </span>
-                                </div>
-                                <small class="text-muted">Format: JPG, PNG, PDF (Max. 5MB)</small>
-                                @error('screenshot')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <!-- DIVIDER -->
                             <hr class="my-4">
 
-                            <!-- INFORMASI PELAPOR -->
-                            <h4 class="mb-4 fw-bold">Informasi Pelapor</h4>
+                            <!-- Lampiran Bukti -->
+                            <h4 class="mb-4 fw-bold">Lampiran Bukti</h4>
 
-                            <!-- NAMA -->
+                            <!-- Jenis Bukti -->
                             <div class="mb-4">
-                                <label for="reporter_name" class="form-label fw-bold">
-                                    <i class="fas fa-user me-2"></i>Nama Lengkap <span class="text-danger">*</span>
+                                <label for="evidence_type" class="form-label fw-bold">
+                                    <i class="fas fa-file-alt me-2"></i>Jenis Bukti <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control @error('reporter_name') is-invalid @enderror" id="reporter_name" name="reporter_name" placeholder="Nama Anda" value="{{ old('reporter_name') }}" required>
-                                @error('reporter_name')
+                                <select class="form-select @error('evidence_type') is-invalid @enderror" id="evidence_type" name="evidence_type" required>
+                                    <option value="">-- Pilih Jenis Bukti --</option>
+                                    <option value="screenshot" {{ old('evidence_type') == 'screenshot' ? 'selected' : '' }}>Screenshot</option>
+                                    <option value="photo" {{ old('evidence_type') == 'photo' ? 'selected' : '' }}>Foto</option>
+                                </select>
+                                @error('evidence_type')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <!-- EMAIL -->
+                            <!-- Upload Bukti -->
                             <div class="mb-4">
-                                <label for="reporter_email" class="form-label fw-bold">
-                                    <i class="fas fa-envelope me-2"></i>Email <span class="text-danger">*</span>
+                                <label for="evidence_file" class="form-label fw-bold">
+                                    <i class="fas fa-upload me-2"></i>Unggah Bukti (JPG/PNG) <span class="text-danger">*</span>
                                 </label>
-                                <input type="email" class="form-control @error('reporter_email') is-invalid @enderror" id="reporter_email" name="reporter_email" placeholder="email@example.com" value="{{ old('reporter_email') }}" required>
-                                <small class="text-muted">Untuk update status laporan (opsional untuk laporan anonim)</small>
-                                @error('reporter_email')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- NO TELEPON -->
-                            <div class="mb-4">
-                                <label for="reporter_phone" class="form-label fw-bold">
-                                    <i class="fas fa-phone me-2"></i>No. Telepon (Opsional)
-                                </label>
-                                <input type="tel" class="form-control @error('reporter_phone') is-invalid @enderror" id="reporter_phone" name="reporter_phone" placeholder="+62 812-3456-7890" value="{{ old('reporter_phone') }}">
-                                @error('reporter_phone')
+                                <input type="file" class="form-control @error('evidence_file') is-invalid @enderror" id="evidence_file" name="evidence_file" accept=".jpg,.jpeg,.png" required>
+                                <small class="text-muted">Format: JPG atau PNG, maksimal 5MB</small>
+                                @error('evidence_file')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -192,7 +190,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="is_anonymous" name="is_anonymous" value="1" {{ old('is_anonymous') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_anonymous">
-                                        <i class="fas fa-user-secret me-2"></i>Laporkan Secara Anonim (Identitas disembunyikan)
+                                        <i class="bi bi-person-fill-lock me-2"></i>Laporkan Secara Anonim (Identitas disembunyikan)
                                     </label>
                                 </div>
                             </div>

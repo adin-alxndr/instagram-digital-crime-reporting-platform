@@ -8,7 +8,7 @@
 @section('content')
 
 <!-- HERO SECTION -->
-<section class="hero-section d-flex flex-column justify-content-center align-items-center" style="background: linear-gradient(135deg, #5DADE2 0%, #48C9B0 100%); min-height: 80vh; color: white; position: relative;">
+<section id="section_1" class="hero-section d-flex flex-column justify-content-center align-items-center" style="background: linear-gradient(135deg, #5DADE2 0%, #48C9B0 100%); min-height: 80vh; color: white; position: relative;">
     <div class="container h-100">
         <div class="row align-items-center h-100">
             <div class="col-lg-8 col-12 mx-auto text-center">
@@ -179,7 +179,7 @@
 </section>
 
 <!-- PROSES PELAPORAN SECTION -->
-<section class="section-padding section-bg">
+<section id="section_3" class="section-padding section-bg">
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="fw-bold mb-3">Bagaimana Cara Melaporkan?</h2>
@@ -304,7 +304,7 @@
 </section>
 
 <!-- FAQ SECTION -->
-<section class="section-padding">
+<section id="section_4" class="section-padding">
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="fw-bold mb-3">Pertanyaan yang Sering Diajukan</h2>

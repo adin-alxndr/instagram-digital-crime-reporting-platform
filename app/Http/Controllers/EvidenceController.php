@@ -1,87 +1,56 @@
 <?php
 
-// app/Http/Controllers/EvidenceController.php
-
 namespace App\Http\Controllers;
 
-use App\Models\Evidence;
-use App\Models\Incident;
+use App\Models\Report;
 use Illuminate\Http\Request;
 
 class EvidenceController extends Controller
 {
     public function index()
     {
-        $evidence = Evidence::with('incident')->latest()->get();
-        return view('evidience.index', compact('evidence'));
-    }
-
-    public function create()
-    {
-        $incidents = Incident::all();
-        return view('evidience.create', compact('incidents'));
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'evidence_id' => 'required|string|unique:evidence,evidence_id',
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'incident_id' => 'required|exists:incidents,id',
-            'description' => 'nullable|string',
-            'hash' => 'nullable|string|max:255',
-            'physical_location' => 'nullable|string|max:255',
-            'acquired_by' => 'required|string|max:255',
-            'acquired_at' => 'required|date_format:Y-m-d\TH:i',
-        ]);
-
-        try {
-            Evidence::create($validated);
-            return redirect()->route('evidence.index')
-                ->with('success', 'Barang bukti berhasil ditambahkan!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        // proteksi admin
+        if (!session('admin_login')) {
+            return redirect()->route('admin.login');
         }
+
+        // ambil data dari reports
+        $evidence = Report::orderBy('created_at', 'desc')->get()->map(function ($report) {
+            $status = $report->status ?? 'Baru';
+
+            return (object) [
+                'evidence_id'     => $report->report_id,
+                'evidence_name'   => $report->is_anonymous ? 'Anonim' : ($report->reporter_name ?? '-'),
+                'case_type'     => $report->crime_type ? ucfirst(str_replace('_', ' ', $report->crime_type)) : '-',
+                'evidence_date'   => $report->created_at ?? '-',
+                'status'        => $status,
+                'status_color'  => getStatusColor($status),
+                'id'            => $report->id,
+                'reporter_email'=> $report->reporter_email ?? '-',
+                'reporter_phone'=> $report->reporter_phone ?? '-'
+            ];
+        });
+
+        return view('evidences.index', compact('evidences'));
+    }
+    public function show($id)
+    {
+        $evidence = Report::findOrFail($id); // ambil langsung Eloquent model
+        return view('evidences.show', compact('evidence'));
     }
 
-    public function edit(Evidence $evidence)
+    public function destroy($id)
     {
-        $incidents = Incident::all();
-        return view('evidience.edit', compact('evidence', 'incidents'));
-    }
+        $evidence = Report::find($id);
 
-    public function update(Request $request, Evidence $evidence)
-    {
-        $validated = $request->validate([
-            'evidence_id' => 'required|string|unique:evidence,evidence_id,' . $evidence->id,
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'incident_id' => 'required|exists:incidents,id',
-            'description' => 'nullable|string',
-            'hash' => 'nullable|string|max:255',
-            'physical_location' => 'nullable|string|max:255',
-            'acquired_by' => 'required|string|max:255',
-            'acquired_at' => 'required|date_format:Y-m-d\TH:i',
-        ]);
-
-        try {
-            $evidence->update($validated);
-            return redirect()->route('evidence.index')
-                ->with('success', 'Barang bukti berhasil diperbarui!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        if (!$evidence) {
+            return redirect()->route('evidences.index')
+                             ->with('error', 'Korban tidak ditemukan.');
         }
-    }
 
-    public function destroy(Evidence $evidence)
-    {
-        try {
-            $evidence->delete();
-            return redirect()->route('evidence.index')
-                ->with('success', 'Barang bukti berhasil dihapus!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-        }
+        $evidence->delete();
+
+        return redirect()->route('evidences.index')
+                         ->with('success', 'Data berhasil dihapus.');
     }
 }

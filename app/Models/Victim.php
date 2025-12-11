@@ -7,17 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Victim extends Model
 {
-    protected $table = 'victims';
+    protected $table = 'reports';
 
-    protected $fillable = [
-        'name',
-        'organization',
-        'contact',
-        'role'
+    protected $casts = [
+        'created_at' => 'datetime',
     ];
-
-    public function incidents(): HasMany
-    {
-        return $this->hasMany(Incident::class, 'victim_name', 'name');
-    }
 }

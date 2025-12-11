@@ -1,11 +1,11 @@
 <?php
+// app/Models/Pec.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Evidence extends Model
+class Pec extends Model
 {
     protected $table = 'reports';
 

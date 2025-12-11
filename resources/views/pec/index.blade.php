@@ -1,4 +1,4 @@
-<!-- resources/views/victims/index.blade.php -->
+<!-- resources/views/pecs/index.blade.php -->
 
 @extends('layouts.app')
 
@@ -13,7 +13,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table id="victimsTable" class="table table-bordered table-striped table-hover">
+            <table id="pecsTable" class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -25,25 +25,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($victims as $victim)
+                    @forelse ($pecs as $pec)
                         <tr>
-                            <td>{{ $victim->id }}</td>
-                            <td>{{ $victim->victim_name }}</td>
-                            <td>{{ $victim->reporter_email }}</td>
-                            <td>{{ $victim->reporter_phone }}</td>
-                            <td>{{ $victim->victim_date->format('d M Y, H:i') }}</td>
+                            <td>{{ $pec->id }}</td>
+                            <td>{{ $pec->victim_name }}</td>
+                            <td>{{ $pec->reporter_email }}</td>
+                            <td>{{ $pec->reporter_phone }}</td>
+                            <td>{{ $pec->pec_date->format('d M Y, H:i') }}</td>
                             <td>
-                                <a href="{{ route('pec.index', $victim->id) }}" class="btn btn-sm btn-primary btn-action">
+                                <a href="{{ route('pec.forensic', $pec->id) }}" class="btn btn-sm btn-primary btn-action">
                                     Proses
                                 </a>
 
-                                <form action="{{ route('victims.destroy', $victim->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger btn-action" onclick="return confirm('Yakin ingin menghapus korban ini?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
                             </td>
                         </tr>
                     @empty
@@ -61,7 +54,7 @@
 @section('js')
 <script>
     $(document).ready(function() {
-        $('#victimsTable').DataTable({
+        $('#pecsTable').DataTable({
             paging: true,           // Pagination: Previous, next, page numbers
             searching: true,        // Instant search/filter
             ordering: true,         // Enable multi-column ordering

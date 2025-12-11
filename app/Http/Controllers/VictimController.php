@@ -1,73 +1,56 @@
 <?php
-// app/Http/Controllers/VictimController.php
 
 namespace App\Http\Controllers;
 
-use App\Models\Victim;
+use App\Models\Report;
 use Illuminate\Http\Request;
 
 class VictimController extends Controller
 {
     public function index()
     {
-        $victims = Victim::withCount('incidents')->latest()->get();
+        // proteksi admin
+        if (!session('admin_login')) {
+            return redirect()->route('admin.login');
+        }
+
+        // ambil data dari reports
+        $victims = Report::orderBy('created_at', 'desc')->get()->map(function ($report) {
+            $status = $report->status ?? 'Baru';
+
+            return (object) [
+                'victim_id'     => $report->report_id,
+                'victim_name'   => $report->is_anonymous ? 'Anonim' : ($report->reporter_name ?? '-'),
+                'case_type'     => $report->crime_type ? ucfirst(str_replace('_', ' ', $report->crime_type)) : '-',
+                'victim_date'   => $report->created_at ?? '-',
+                'status'        => $status,
+                'status_color'  => getStatusColor($status),
+                'id'            => $report->id,
+                'reporter_email'=> $report->reporter_email ?? '-',
+                'reporter_phone'=> $report->reporter_phone ?? '-'
+            ];
+        });
+
         return view('victims.index', compact('victims'));
     }
-
-    public function create()
+    public function show($id)
     {
-        return view('victims.create');
+        $victim = Report::findOrFail($id); // ambil langsung Eloquent model
+        return view('victims.show', compact('victim'));
     }
 
-    public function store(Request $request)
+    public function destroy($id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'organization' => 'nullable|string|max:255',
-            'contact' => 'required|string|max:255',
-            'role' => 'required|in:User,Employee,Customer',
-        ]);
+        $victim = Report::find($id);
 
-        try {
-            Victim::create($validated);
+        if (!$victim) {
             return redirect()->route('victims.index')
-                ->with('success', 'Korban berhasil ditambahkan!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+                             ->with('error', 'Korban tidak ditemukan.');
         }
-    }
 
-    public function edit(Victim $victim)
-    {
-        return view('victims.edit', compact('victim'));
-    }
+        $victim->delete();
 
-    public function update(Request $request, Victim $victim)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'organization' => 'nullable|string|max:255',
-            'contact' => 'required|string|max:255',
-            'role' => 'required|in:User,Employee,Customer',
-        ]);
-
-        try {
-            $victim->update($validated);
-            return redirect()->route('victims.index')
-                ->with('success', 'Korban berhasil diperbarui!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-        }
-    }
-
-    public function destroy(Victim $victim)
-    {
-        try {
-            $victim->delete();
-            return redirect()->route('victims.index')
-                ->with('success', 'Korban berhasil dihapus!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-        }
+        return redirect()->route('victims.index')
+                         ->with('success', 'Data berhasil dihapus.');
     }
 }
