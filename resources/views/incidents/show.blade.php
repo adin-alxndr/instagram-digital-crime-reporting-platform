@@ -82,9 +82,12 @@
             </div>
             <div class="card-body d-grid gap-2">
 
-                <a href="{{ route('pec.index') }}" class="btn btn-primary w-100">
-                    Proses Insiden
-                </a>
+                <form action="{{ route('incidents.process', $incident->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary w-100">
+                        Proses Insiden
+                    </button>
+                </form>
 
                 <form action="{{ route('incidents.destroy', ['id' => $incident->id]) }}"
                       method="POST"

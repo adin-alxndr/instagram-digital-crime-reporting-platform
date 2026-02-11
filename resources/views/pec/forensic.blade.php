@@ -40,7 +40,26 @@ $steps = [
 <div class="card mt-3 mb-3">
     <div class="card-header"><strong>{{ $step['label'] }}</strong></div>
     <div class="card-body">
-        <ol>
+
+        @php
+        $canAccess = true;
+
+        if($stepKey === 'collection' && !$pec->preservation_step3) {
+            $canAccess = false;
+        }
+
+        if($stepKey === 'examination' && !$pec->collection_step3) {
+            $canAccess = false;
+        }
+        @endphp
+
+        @if(!$canAccess)
+            <span class="badge bg-secondary">
+                Lengkapi langkah sebelumnya dahulu
+            </span>
+        @else
+
+       <ol>
             @foreach($step['sub'] as $index => $desc)
                 @php $subStepNum = $index + 1; @endphp
                 <li>
@@ -49,19 +68,20 @@ $steps = [
                     @php $field = $stepKey.'_step'.$subStepNum; @endphp
 
                     @if(!$pec->$field)
-                    <form action="{{ route('pec.markPecSubStep', $pec->id) }}" method="POST" class="mt-1">
-                        @csrf
-                        <input type="hidden" name="step" value="{{ $stepKey }}">
-                        <input type="hidden" name="sub_step" value="{{ $subStepNum }}">
-                        <textarea name="notes" class="form-control mb-1" placeholder="Catatan admin"></textarea>
-                        <button type="submit" class="btn btn-sm btn-primary">Sudah</button>
-                    </form>
+                        <form action="{{ route('pec.markPecSubStep', $pec->id) }}" method="POST" class="mt-1">
+                            @csrf
+                            <input type="hidden" name="step" value="{{ $stepKey }}">
+                            <input type="hidden" name="sub_step" value="{{ $subStepNum }}">
+                            <textarea name="notes" class="form-control mb-1" placeholder="Catatan admin"></textarea>
+                            <button type="submit" class="btn btn-sm btn-primary">Sudah</button>
+                        </form>
                     @else
-                    <span class="badge bg-success">Sub-step selesai</span>
+                        <span class="badge bg-success">Sub-step selesai</span>
                     @endif
                 </li>
             @endforeach
         </ol>
+        @endif
 
         @if($step['notes'])
         <pre>{{ $step['notes'] }}</pre>
@@ -131,7 +151,7 @@ $steps = [
                 </div>
             @endif
         @else
-            <span class="badge bg-secondary">Lengkapi semua PEC step dulu</span>
+            <span class="badge bg-secondary">Lengkapi semua PEC step dahulu</span>
         @endif
     </div>
 </div>
@@ -152,10 +172,12 @@ $steps = [
                     <label>Unggah Foto / Screenshot Bukti (Bisa lebih dari 1)</label>
                     <input type="file" id="attachments" name="attachments[]" class="form-control" multiple accept="image/*">
                 </div>
-                <!-- Preview -->
                 <div id="preview" class="d-flex flex-wrap mb-2"></div>
                 <button type="submit" class="btn btn-primary">Upload Lampiran</button>
             </form>
+
+        @else
+            <span class="badge bg-secondary">Lengkapi analisis dan rekomendasi dahulu</span>
         @endif
 
         <!-- Daftar Lampiran Saat Ini -->
@@ -163,21 +185,21 @@ $steps = [
             <h5 class="mt-3">Lampiran Saat Ini</h5>
             <div class="d-flex flex-wrap">
                 @foreach($attachments as $file)
-                    @php
-                        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                        $isImage = in_array($ext, $allowedExtensions);
-                    @endphp
-                    <div class="m-2 text-center">
-                        @if($isImage)
-                            <img src="{{ asset('uploads/'.$file) }}" alt="Lampiran" style="max-width:150px; max-height:150px; display:block; border:1px solid #ccc; margin-bottom:5px;">
-                        @else
-                            <span class="badge bg-secondary">File: {{ $file }}</span>
-                        @endif
+                    <div class="m-2 p-2 border rounded bg-light">
+                        <!-- Nama file saja -->
+                        <div class="fw-bold small">
+                            📎 {{ $file }}
+                        </div>
+
                         <div class="mt-1">
-                            <form action="{{ route('pec.deleteAttachment', [$pec->id, $file]) }}" method="POST" onsubmit="return confirm('Hapus lampiran ini?')">
+                            <form action="{{ route('pec.deleteAttachment', [$pec->id, $file]) }}" 
+                                method="POST" 
+                                onsubmit="return confirm('Hapus lampiran ini?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Hapus
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -216,7 +238,7 @@ $steps = [
     });
 </script>
 
-<a href="{{ route('pec.show', $pec->id) }}" class="btn btn-secondary">Kembali ke Detail Insiden</a>
+<a href="{{ route('pec.index') }}" class="btn btn-secondary">Kembali</a>
 <a href="{{ route('pec.generatePdf', $pec->id) }}" class="btn btn-success">
     Download Laporan PDF
 </a>

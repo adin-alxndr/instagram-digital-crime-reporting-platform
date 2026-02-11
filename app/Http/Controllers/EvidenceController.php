@@ -15,19 +15,25 @@ class EvidenceController extends Controller
         }
 
         // ambil data dari reports
-        $evidence = Report::orderBy('created_at', 'desc')->get()->map(function ($report) {
+        $evidences = Report::whereNotIn('status', ['ditolak', 'selesai'])
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($report) {
+
             $status = $report->status ?? 'Baru';
 
             return (object) [
-                'evidence_id'     => $report->report_id,
-                'evidence_name'   => $report->is_anonymous ? 'Anonim' : ($report->reporter_name ?? '-'),
-                'case_type'     => $report->crime_type ? ucfirst(str_replace('_', ' ', $report->crime_type)) : '-',
-                'evidence_date'   => $report->created_at ?? '-',
-                'status'        => $status,
-                'status_color'  => getStatusColor($status),
-                'id'            => $report->id,
-                'reporter_email'=> $report->reporter_email ?? '-',
-                'reporter_phone'=> $report->reporter_phone ?? '-'
+                'case_id'        => $report->report_id,
+                'evidence_name'  => $report->is_anonymous ? 'Anonim' : ($report->reporter_name ?? '-'),
+                'case_type'      => $report->crime_type ? ucfirst(str_replace('_', ' ', $report->crime_type)) : '-',
+                'evidence_type'  => $report->evidence_type ?? '-',
+                'evidence_date'  => $report->created_at ?? '-',
+                'evidence_path'  => $report->evidence_file,
+                'status'         => $status,
+                'status_color'   => getStatusColor($status),
+                'id'             => $report->id,
+                'reporter_email' => $report->reporter_email ?? '-',
+                'reporter_phone' => $report->reporter_phone ?? '-'
             ];
         });
 

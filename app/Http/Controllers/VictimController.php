@@ -14,20 +14,23 @@ class VictimController extends Controller
             return redirect()->route('admin.login');
         }
 
-        // ambil data dari reports
-        $victims = Report::orderBy('created_at', 'desc')->get()->map(function ($report) {
+        $victims = Report::whereNotIn('status', ['ditolak', 'selesai'])
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($report) {
+
             $status = $report->status ?? 'Baru';
 
             return (object) [
-                'victim_id'     => $report->report_id,
-                'victim_name'   => $report->is_anonymous ? 'Anonim' : ($report->reporter_name ?? '-'),
-                'case_type'     => $report->crime_type ? ucfirst(str_replace('_', ' ', $report->crime_type)) : '-',
-                'victim_date'   => $report->created_at ?? '-',
-                'status'        => $status,
-                'status_color'  => getStatusColor($status),
-                'id'            => $report->id,
-                'reporter_email'=> $report->reporter_email ?? '-',
-                'reporter_phone'=> $report->reporter_phone ?? '-'
+                'victim_id'      => $report->report_id,
+                'victim_name'    => $report->is_anonymous ? 'Anonim' : ($report->reporter_name ?? '-'),
+                'case_type'      => $report->crime_type ? ucfirst(str_replace('_', ' ', $report->crime_type)) : '-',
+                'victim_date'    => $report->created_at ?? '-',
+                'status'         => $status,
+                'status_color'   => getStatusColor($status),
+                'id'             => $report->id,
+                'reporter_email' => $report->reporter_email ?? '-',
+                'reporter_phone' => $report->reporter_phone ?? '-'
             ];
         });
 

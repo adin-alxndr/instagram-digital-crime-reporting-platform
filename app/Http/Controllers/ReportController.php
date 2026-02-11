@@ -31,8 +31,8 @@ class ReportController extends Controller
             'suspect_username' => 'required|string|max:255',
             'suspect_profile_url' => 'nullable|url|max:255',
             'description' => 'required|string|min:20|max:2000',
-            'evidence_type' => 'required|string|in:screenshot,photo,video,document',
-            'evidence_file' => 'required|image|mimes:jpg,jpeg,png|max:5120',
+            'evidence_type' => 'required|string|in:screenshot,dokumen',
+            'evidence_file' => 'required|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
             'is_anonymous' => 'nullable|boolean',
             'agree' => 'required|accepted',
         ], [
@@ -41,7 +41,7 @@ class ReportController extends Controller
             'evidence_type.in' => 'Jenis bukti tidak valid.',
             'description.min' => 'Deskripsi terlalu pendek, minimal 20 karakter.',
             'description.max' => 'Deskripsi terlalu panjang, maksimal 2000 karakter.',
-            'evidence_file.mimes' => 'Bukti harus berupa file JPG atau PNG.',
+            'evidence_file.mimes' => 'Bukti harus berupa file JPG, PNG, PDF, DOC, atau DOCX.',
             'evidence_file.max' => 'Ukuran file maksimal 5MB.',
             'agree.required' => 'Anda harus menyetujui bahwa informasi yang diberikan benar.',
         ]);

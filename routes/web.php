@@ -47,6 +47,8 @@ Route::prefix('incidents')->group(function () {
     Route::get('/incidents/{id}/edit-status', [IncidentController::class, 'editStatus'])->name('incidents.editStatus');
     Route::patch('/incidents/{id}/update-status', [IncidentController::class, 'updateStatus'])->name('incidents.updateStatus');
     Route::delete('/{id}', [IncidentController::class, 'destroy'])->name('incidents.destroy');
+    Route::post('/incidents/{id}/process', [IncidentController::class, 'process'])->name('incidents.process');
+
 });
 
 // Halaman daftar korban berdasarkan status
@@ -56,12 +58,19 @@ Route::prefix('victims')->group(function () {
     Route::delete('/{id}', [VictimController::class, 'destroy'])->name('victims.destroy');
 });
 
-Route::resource('evidence', EvidenceController::class);
+// Halaman daftar korban berdasarkan status
+Route::prefix('evidence')->group(function () {
+    Route::get('/', [EvidenceController::class, 'index'])->name('evidences.index');
+    Route::get('/{id}', [EvidenceController::class, 'show'])->name('evidences.show');
+    Route::delete('/{id}', [EvidenceController::class, 'destroy'])->name('evidences.destroy');
+});
 
 // Resource routes untuk INCIDENTS
 Route::prefix('pec')->group(function () {
     Route::get('/', [PecController::class, 'index'])->name('pec.index');
     Route::get('/{id}', [PecController::class, 'show'])->name('pec.show');
+    Route::get('/pec/{id}/edit-status', [PecController::class, 'editStatus'])->name('pec.editStatus');
+    Route::patch('/pec/{id}/update-status', [PecController::class, 'updateStatus'])->name('pec.updateStatus');
     Route::delete('/{id}', [PecController::class, 'destroy'])->name('pec.destroy');
 
     // Tambahkan route baru untuk proses insiden

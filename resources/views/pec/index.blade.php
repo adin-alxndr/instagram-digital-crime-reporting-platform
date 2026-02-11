@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Data Pelapor</h2>
+    <h2>Proses Pelaporan</h2>
 </div>
 
 <div class="card">
@@ -16,22 +16,27 @@
             <table id="pecsTable" class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nama Pelapor</th>
-                        <th>Email Pelapor</th>
-                        <th>Nomor Pelapor</th>
+                        <th>ID Kasus</th>
                         <th>Tanggal Pelaporan</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($pecs as $pec)
                         <tr>
-                            <td>{{ $pec->id }}</td>
-                            <td>{{ $pec->victim_name }}</td>
-                            <td>{{ $pec->reporter_email }}</td>
-                            <td>{{ $pec->reporter_phone }}</td>
+                            <td>{{ $pec->pec_id }}</td>
                             <td>{{ $pec->pec_date->format('d M Y, H:i') }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-{{ getStatusColor($pec->status ?? 'Baru') }}">
+                                        {{ $pec->status ?? 'Baru' }}
+                                    </span>
+                                    <a href="{{ route('pec.editStatus', $pec->id) }}" class="ms-2 text-decoration-none" title="Ubah Status">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </td>
                             <td>
                                 <a href="{{ route('pec.forensic', $pec->id) }}" class="btn btn-sm btn-primary btn-action">
                                     Proses
@@ -41,7 +46,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Belum ada data korban</td>
+                            <td colspan="4" class="text-center">Belum ada kasus yang siap diproses</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -61,7 +66,7 @@
             orderMulti: true,       // Allow multi-column sort with shift+click
             pageLength: 10,         // Default rows per page
             columnDefs: [
-                { orderable: false, targets: 5 } // Kolom aksi tidak bisa di-sort
+                { orderable: false, targets: 2 } // Kolom aksi tidak bisa di-sort
             ],
             language: {
                 search: "Cari:",

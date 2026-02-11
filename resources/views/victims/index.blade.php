@@ -33,17 +33,9 @@
                             <td>{{ $victim->reporter_phone }}</td>
                             <td>{{ $victim->victim_date->format('d M Y, H:i') }}</td>
                             <td>
-                                <a href="{{ route('pec.index', $victim->id) }}" class="btn btn-sm btn-primary btn-action">
-                                    Proses
+                                <a href="{{ route('incidents.show', $victim->id) }}" class="btn btn-sm btn-primary btn-action">
+                                    Cek Kasus
                                 </a>
-
-                                <form action="{{ route('victims.destroy', $victim->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger btn-action" onclick="return confirm('Yakin ingin menghapus korban ini?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
                             </td>
                         </tr>
                     @empty

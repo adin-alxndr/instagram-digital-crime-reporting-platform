@@ -33,7 +33,7 @@ class ReportSeeder extends Seeder
                 'suspect_username' => 'scammer_id',
                 'suspect_profile_url' => 'https://instagram.com/scammer_id',
                 'description' => 'Penipuan jual beli online, korban diminta transfer namun barang tidak dikirim.',
-                'evidence_type' => 'photo',
+                'evidence_type' => 'screenshot',
                 'evidence_file' => 'dummy/photo2.jpg',
                 'reporter_name' => null,
                 'reporter_email' => null,

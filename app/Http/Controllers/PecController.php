@@ -17,7 +17,10 @@ class PecController extends Controller
         }
 
         // ambil data dari reports
-        $pec = Report::orderBy('created_at', 'desc')->get()->map(function ($report) {
+        $pecs = Report::whereIn('status', ['Proses'])
+                        ->orderBy('created_at', 'desc')
+                        ->get()
+                        ->map(function ($report) {
             return (object) [
                 'pec_id'   => $report->report_id,
                 'victim_name'   => $report->is_anonymous ? 'Anonim' : $report->reporter_name,
@@ -30,7 +33,7 @@ class PecController extends Controller
             ];
         });
 
-        return view('pec.index', compact('pec'));
+        return view('pec.index', compact('pecs'));
     }
     public function show($id)
     {
@@ -49,6 +52,26 @@ class PecController extends Controller
         $pec->save();
         return redirect()->route('pec.show', $id)
                         ->with('success', 'Insiden berhasil diperbarui');
+    }
+// Tampilkan form khusus edit status
+    public function editStatus($id)
+    {
+        $pec = Report::findOrFail($id);
+        return view('pec.edit-status', compact('pec'));
+    }
+
+    // Update status insiden
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Baru,Proses,Selesai,Ditolak'
+        ]);
+
+        $pec = Report::findOrFail($id);
+        $pec->status = $request->status;
+        $pec->save();
+
+        return redirect()->route('pec.index')->with('success', 'Status insiden berhasil diperbarui.');
     }
 
     public function forensic($id)
@@ -95,26 +118,46 @@ class PecController extends Controller
                         ->with('success', "Sub-step {$subStep} di {$step} berhasil diverifikasi.");
     }
 
-        public function saveAnalysis(Request $request, $id)
-        {
-            $pec = Report::findOrFail($id);
+    public function saveAnalysis(Request $request, $id)
+    {
+        $pec = Report::findOrFail($id);
 
-            $pec->analysis_motif    = $request->motif;
-            $pec->analysis_impact   = $request->impact;
-            $pec->analysis_summary  = $request->summary;
+        $pec->analysis_motif    = $request->motif;
+        $pec->analysis_impact   = $request->impact;
+        $pec->analysis_summary  = $request->summary;
 
-            $pec->save();
+        $pec->save();
 
-            return redirect()->route('pec.forensic', $id)
-                            ->with('success', 'Analisis & rekomendasi berhasil disimpan.');
-        }
+        return redirect()->route('pec.forensic', $id)
+                        ->with('success', 'Analisis & rekomendasi berhasil disimpan.');
+    }
     public function generatePdf($id)
     {
         $pec = Report::findOrFail($id);
 
-        $pdf = Pdf::loadView('pec.forensic_pdf', compact('pec'))
-          ->setOptions(['isRemoteEnabled' => true]); // penting untuk gambar dari asset/base64
-        return $pdf->download('forensic_report.pdf');
+        $attachments = json_decode($pec->attachments, true) ?? [];
+
+        $validImages = [];
+        $otherFiles  = [];
+
+        foreach ($attachments as $file) {
+            $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+            if (in_array($ext, ['jpg','jpeg','png','gif','bmp','webp'])) {
+                $validImages[] = $file;
+            } else {
+                $otherFiles[] = $file;
+            }
+        }
+
+        $pdf = Pdf::loadView('pec.forensic_pdf', [
+                'pec' => $pec,
+                'validImages' => $validImages,
+                'otherFiles' => $otherFiles
+            ])
+            ->setOptions(['isRemoteEnabled' => true]);
+
+        return $pdf->stream('forensic_report.pdf');
     }
 
     // Method untuk upload lampiran bukti
@@ -122,28 +165,42 @@ class PecController extends Controller
     {
         $pec = Report::findOrFail($id);
 
-        // Validasi file
+        // Validasi: harus ada file
         $request->validate([
-            'attachments.*' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240' // max 10MB per file
+            'attachments' => 'required',
+            'attachments.*' => 'file|mimes:jpg,jpeg,png,pdf|max:10240'
+        ], [
+            'attachments.required' => 'Harap pilih minimal satu file sebelum upload.'
         ]);
 
+        // Ambil file
         $files = $request->file('attachments');
+
+        // Extra protection: jika null, hentikan
+        if (!$files) {
+            return redirect()->back()->withErrors(['attachments' => 'Tidak ada file yang dipilih.']);
+        }
+
         $uploadedFiles = [];
 
         foreach ($files as $file) {
-            $path = $file->store('public/attachments'); // simpan di storage/app/public/attachments
-            $uploadedFiles[] = basename($path); // simpan nama file saja
+            // simpan file ke storage/app/public/attachments
+            $stored = $file->store('attachments', 'public');
+
+            // ambil nama file saja
+            $uploadedFiles[] = basename($stored);
         }
 
-        // Gabungkan dengan attachments lama
+        // gabungkan file lama
         $existing = $pec->attachments ? json_decode($pec->attachments, true) : [];
         $pec->attachments = json_encode(array_merge($existing, $uploadedFiles));
 
         $pec->save();
 
         return redirect()->route('pec.forensic', $id)
-                         ->with('success', 'Lampiran berhasil diupload.');
+                        ->with('success', 'Lampiran berhasil diupload.');
     }
+
     public function deleteAttachment($id, $filename)
     {
         $pec = Report::findOrFail($id);

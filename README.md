@@ -1,106 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Siap, ini aku buatkan README.md versi FULL & rapi, langsung bisa kamu copas ke file README.md 👇
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🫀 Heart Disease Prediction Web App
 
-# Digital Forensik System
+A web-based application for heart disease prediction built using **Django Framework** and a **Decision Tree Machine Learning model**.
 
-Sistem Manajemen Insiden Digital Forensik - Aplikasi web untuk mengelola insiden keamanan siber, korban, dan barang bukti digital.
+This application allows users to input medical parameters and receive a prediction result through a user-friendly web interface.
 
+More information about Django:  
+https://www.djangoproject.com/
 
-## Fitur
-📊 Dashboard
+---
 
-- Statistik real-time insiden 
-- Total insiden
-- insiden dalam investigasi
-- insiden selesai
-- Total korban yang terdaftar
-- Aktivitas terbaru
+## 📌 Features
 
-🚨 Manajemen Insiden
+- Heart disease prediction using Decision Tree algorithm  
+- Web-based user interface  
+- Input form for patient medical data  
+- Prediction result display  
+- Responsive and user-friendly design  
 
-- Tambah insiden baru dengan detail lengkap
-- Edit dan perbarui status insiden
-- Lihat detail insiden dengan barang bukti terkait
-- Hapus insiden dengan konfirmasi
-- Filter berdasarkan status
+---
 
-👥 Manajemen Korban
+## 🛠️ Tech Stack
 
-- Daftarkan korban insiden baru
-- Lihat daftar korban dengan jumlah insiden
-- Edit data korban
-- Hapus data korban
+- Python  
+- Django  
+- HTML  
+- CSS  
+- JavaScript  
+- Machine Learning (Decision Tree)  
 
-📦 Manajemen Barang Bukti
+---
 
-- Simpan informasi barang bukti digital
-- Track hash SHA256 untuk integritas data
-- Link barang bukti dengan insiden terkait
-- Informasi lokasi fisik dan penyimpanan
-- Catatan waktu pengambilan barang bukti
-## Deployment
+## ⚙️ Installation
 
-Clone Repository
-
+### 1. Clone the Repository
 ```bash
-  git clone https://github.com/yourusername/digital-forensik-system.git
-cd digital-forensik-system
+git clone https://github.com/adin-alxndr/heart-prediction-using-python.git
+cd heart-prediction-using-python
+```
+### 2. Create Virtual Environment (Optional but Recommended)
+``` bash
+py -m venv venv
+venv\Scripts\activate
+```
+### 3. Install Django
+``` bash
+py -m pip install Django
+```
+### 4. Install Required Libraries
+``` bash
+py -m pip install -r requirements.txt
 ```
 
-Install Dependencies
+---
 
-```bash
-composer install
+## 📊 Graphviz Installation (Optional)
+
+Graphviz is used to visualize the Decision Tree model structure.
+
+Download and install Graphviz from:
+https://www.graphviz.org/download/
+
+For Windows users, follow this guide:
+https://forum.graphviz.org/t/new-simplified-installation-procedure-on-windows/224
+
+---
+
+## 🗃️ Database Migration
+
+Make sure you are in the same directory as manage.py, then run:
+``` bash
+py manage.py migrate
 ```
 
-Setup Environment
+---
 
-```bash
-cp .env.example .env
+## ▶️ Run the Server
+``` bash
+py manage.py runserver
 ```
 
-Edit file .env dan sesuaikan konfigurasi:
-```bash
-APP_NAME="Digital Forensik System"
-APP_ENV=local
-APP_DEBUG=true
-APP_URL=http://localhost:8000
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=ihs_2025
-DB_USERNAME=root
-DB_PASSWORD=
+Then open your browser and go to:
+``` bash
+http://127.0.0.1:8000/
 ```
 
-Generate Application Key
+---
 
-```bash
-php artisan key:generate
-```
+## 📜 License
 
-Jalankan Migrations
-
-```bash
-php artisan migrate
-```
-
-Jalankan Server
-
-```bash
-php artisan serve
-```
-
-## Acknowledgements
-
- - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
- - [Awesome README](https://github.com/matiassingers/awesome-readme)
- - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-
+This project is for educational and portfolio purposes.

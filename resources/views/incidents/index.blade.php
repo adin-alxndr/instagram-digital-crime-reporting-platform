@@ -34,16 +34,15 @@
                             <td>{{ $incident->case_type }}</td>
                             <td>{{ $incident->victim_name }}</td>
                             <td>{{ $incident->incident_date->format('d M Y, H:i') }}</td>
-                            <td class="d-flex align-items-center">
-                                <!-- Badge status -->
-                                <span class="badge bg-{{ getStatusColor($incident->status ?? 'Baru') }}">
-                                    {{ $incident->status ?? 'Baru' }}
-                                </span>
-
-                                <!-- Icon untuk edit status -->
-                                <a href="{{ route('incidents.editStatus', $incident->id) }}" class="ms-2 text-decoration-none" title="Ubah Status">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-{{ getStatusColor($incident->status ?? 'Baru') }}">
+                                        {{ $incident->status ?? 'Baru' }}
+                                    </span>
+                                    <a href="{{ route('incidents.editStatus', $incident->id) }}" class="ms-2 text-decoration-none" title="Ubah Status">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
                             </td>
                             <td>
                                 <a href="{{ route('incidents.show', $incident->id) }}"

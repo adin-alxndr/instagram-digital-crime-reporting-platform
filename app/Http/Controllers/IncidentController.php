@@ -93,5 +93,16 @@ class IncidentController extends Controller
         return redirect()->route('incidents.index')
                          ->with('success', 'Insiden berhasil dihapus.');
     }
+    public function process($id)
+    {
+        $incident = Report::findOrFail($id);
 
+        // Ubah status ke Proses
+        $incident->status = 'Proses';
+        $incident->save();
+
+        // Redirect ke halaman PEC
+        return redirect()->route('pec.index')
+                        ->with('success', 'Status insiden berhasil diubah ke Proses');
+    }
 }

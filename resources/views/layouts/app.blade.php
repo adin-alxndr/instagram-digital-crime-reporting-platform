@@ -41,8 +41,8 @@
                             </a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a class="nav-link {{ Route::is('evidence.*') ? 'active' : '' }}" 
-                               href="{{ route('evidence.index') }}">
+                            <a class="nav-link {{ Route::is('evidences.*') ? 'active' : '' }}" 
+                               href="{{ route('evidences.index') }}">
                                 <i class="fas fa-archive me-2"></i>Barang Bukti
                             </a>
                         </li>

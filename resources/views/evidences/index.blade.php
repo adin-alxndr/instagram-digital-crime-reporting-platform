@@ -18,6 +18,7 @@
                         <th>Jenis Bukti</th>
                         <th>Lokasi Penyimpanan</th>
                         <th>Waktu Penyimpanan</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,12 +27,25 @@
                             <td>{{ $evidence->id }}</td>
                             <td>{{ $evidence->case_id }}</td>
                             <td>{{ $evidence->evidence_type }}</td>
-                            <td>{{ $evidence->storage_location }}</td>
-                            <td>{{ $evidence->stored_at ? $evidence->stored_at->format('d M Y, H:i') : '-' }}</td>
+                            <td>
+                                @if ($evidence->evidence_path)
+                                    <a href="{{ Storage::url($evidence->evidence_path) }}" target="_blank">
+                                        Lihat Bukti
+                                    </a>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>{{ $evidence->evidence_date ? $evidence->evidence_date->format('d M Y, H:i') : '-' }}</td>
+                            <td>
+                                <a href="{{ route('incidents.show', $evidence->id) }}" class="btn btn-sm btn-primary btn-action">
+                                    Cek Kasus
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">Belum ada data barang bukti</td>
+                            <td colspan="6" class="text-center">Belum ada data barang bukti</td>
                         </tr>
                     @endforelse
                 </tbody>
