@@ -1,34 +1,35 @@
-Siap, ini aku buatkan README.md versi FULL & rapi, langsung bisa kamu copas ke file README.md 👇
+# 🚨 Instagram Digital Crime Reporting Platform
 
-# 🫀 Heart Disease Prediction Web App
+A web-based platform for reporting and managing digital crime cases on **Instagram** securely and systematically.
 
-A web-based application for heart disease prediction built using **Django Framework** and a **Decision Tree Machine Learning model**.
-
-This application allows users to input medical parameters and receive a prediction result through a user-friendly web interface.
-
-More information about Django:  
-https://www.djangoproject.com/
+This application allows users to submit crime reports along with personal data and supporting evidence. Each report will generate a unique tracking code. Administrators can manage victim data, case records, evidence, and process actions step by step until generating a final report in PDF format.
 
 ---
 
 ## 📌 Features
 
-- Heart disease prediction using Decision Tree algorithm  
-- Web-based user interface  
-- Input form for patient medical data  
-- Prediction result display  
-- Responsive and user-friendly design  
+### 👤 User
+- Submit digital crime reports  
+- Input personal data and case description  
+- Upload supporting evidence (screenshots/files)  
+- Receive unique report code after submission  
+- Track report status using report code  
+
+### 🛡️ Admin
+- Manage victim data (create, update, delete)  
+- Manage case data  
+- Manage evidence records  
+- Process case handling in stages  
+- Generate final investigation report in PDF  
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Python  
-- Django  
-- HTML  
-- CSS  
-- JavaScript  
-- Machine Learning (Decision Tree)  
+- Backend: (Laravel / Django)  
+- Frontend: HTML, CSS, JavaScript  
+- Database: MySQL  
+- File Upload & PDF Generator  
 
 ---
 
@@ -36,53 +37,36 @@ https://www.djangoproject.com/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/adin-alxndr/heart-prediction-using-python.git
-cd heart-prediction-using-python
+git clone https://github.com/adin-alxndr/instagram-digital-crime-reporting-platform
+cd instagram-digital-crime-reporting-platform
 ```
-### 2. Create Virtual Environment (Optional but Recommended)
-``` bash
-py -m venv venv
-venv\Scripts\activate
+### 2. Install Dependencies
+```bash
+composer install
 ```
-### 3. Install Django
-``` bash
-py -m pip install Django
+### 3. Environment Configuration
+```bash
+cp .env.example .env
 ```
-### 4. Install Required Libraries
-``` bash
-py -m pip install -r requirements.txt
-```
-
----
-
-## 📊 Graphviz Installation (Optional)
-
-Graphviz is used to visualize the Decision Tree model structure.
-
-Download and install Graphviz from:
-https://www.graphviz.org/download/
-
-For Windows users, follow this guide:
-https://forum.graphviz.org/t/new-simplified-installation-procedure-on-windows/224
+Edit .env file according to your database configuration.
 
 ---
 
 ## 🗃️ Database Migration
 
-Make sure you are in the same directory as manage.py, then run:
-``` bash
-py manage.py migrate
+Run migration to create database tables:
+```bash
+php artisan migrate
 ```
 
 ---
 
 ## ▶️ Run the Server
-``` bash
-py manage.py runserver
+```bash
+php artisan serve
 ```
-
-Then open your browser and go to:
-``` bash
+Then open your browser:
+```bash
 http://127.0.0.1:8000/
 ```
 
@@ -90,4 +74,4 @@ http://127.0.0.1:8000/
 
 ## 📜 License
 
-This project is for educational and portfolio purposes.
+This project is developed for educational and portfolio purposes.
