@@ -75,3 +75,9 @@ http://127.0.0.1:8000/
 ## 📜 License
 
 This project is developed for educational and portfolio purposes.
+
+---
+
+## 🙋 Author
+
+Made by [adin-alxndr](https://github.com/adin-alxndr/)
