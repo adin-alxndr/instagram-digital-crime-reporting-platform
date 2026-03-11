@@ -250,4 +250,5 @@ Proyek ini dikembangkan untuk keperluan edukasi dan portofolio.
 
 ## 🙋 Pembuat
 
-Dibuat oleh [adin-alxndr](https://github.com/adin-alxndr/)
+Dibuat oleh [adin-alxndr](https://github.com/adin-alxndr/) dan [
+adeliakhansa](https://github.com/adeliakhansa/)
