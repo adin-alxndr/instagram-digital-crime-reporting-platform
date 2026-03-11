@@ -1,5 +1,12 @@
 # 🚨 Platform Pelaporan Kejahatan Digital Instagram
 
+![Laravel](https://img.shields.io/badge/Laravel-Framework-FF2D20?logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-Backend-777BB4?logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-Frontend-F7DF1E?logo=javascript&logoColor=black)
+![PDF Generation](https://img.shields.io/badge/PDF-DomPDF-red)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 Platform berbasis web untuk melaporkan dan mengelola kasus kejahatan digital di **Instagram** secara aman dan sistematis.
 
 Aplikasi ini memungkinkan pengguna untuk mengirimkan laporan kejahatan beserta data pribadi dan bukti pendukung. Setiap laporan akan menghasilkan kode pelacakan unik. Administrator dapat mengelola data korban, data kasus, barang bukti, dan memproses tindakan secara bertahap menggunakan kerangka kerja forensik digital **PEC (Preservation, Examination, Collection)** — hingga menghasilkan laporan akhir dalam format PDF.
